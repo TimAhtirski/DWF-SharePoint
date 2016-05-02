@@ -1,0 +1,177 @@
+<style>
+    .button {
+        font-size: 17px;
+        background-color: hsl(0, 100%, 27%) !important;
+        background-repeat: repeat-x;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ef0000", endColorstr="#890000");
+        background-image: -khtml-gradient(linear, left top, left bottom, from(#ef0000), to(#890000));
+        background-image: -moz-linear-gradient(top, #ef0000, #890000);
+        background-image: -ms-linear-gradient(top, #ef0000, #890000);
+        background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ef0000), color-stop(100%, #890000));
+        background-image: -webkit-linear-gradient(top, #ef0000, #890000);
+        background-image: -o-linear-gradient(top, #ef0000, #890000);
+        background-image: linear-gradient(#ef0000, #890000);
+        border-color: #890000 #890000 hsl(0, 100%, 22%);
+        color: #fff !important;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.33);
+        -webkit-font-smoothing: antialiased;
+        border-radius: 6px;
+    }
+
+    a.button:hover {
+        text-decoration: none;
+        font-size: 17px;
+        background-color: hsl(0, 100%, 8%) !important;
+        background-repeat: repeat-x;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff5151", endColorstr="#280000");
+        background-image: -khtml-gradient(linear, left top, left bottom, from(#ff5151), to(#280000));
+        background-image: -moz-linear-gradient(top, #ff5151, #280000);
+        background-image: -ms-linear-gradient(top, #ff5151, #280000);
+        background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ff5151), color-stop(100%, #280000));
+        background-image: -webkit-linear-gradient(top, #ff5151, #280000);
+        background-image: -o-linear-gradient(top, #ff5151, #280000);
+        background-image: linear-gradient(#ff5151, #280000);
+        border-color: #280000 #280000 hsl(0, 100%, -6.5%);
+        color: #fff !important;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.95);
+        -webkit-font-smoothing: antialiased;
+        border-radius: 6px;
+    }
+</style>
+<div class="ms-rtedir" dir="ltr" style="visibility: hidden;">
+    <p style="padding: 5px; width: 913px; height: 98px; text-align: left;">
+        <font face="Verdana">SPACE IT and Strategic Planning manages the drafting team whose primary purpose is to update Store base floor plans on&#160;a&#160;year around basis. </font><strong><font face="Verdana">NOTE: </font></strong><font face="Verdana">
+            These floor plans are transitioning to reflect accurate architectural elements and will go<br /> from a high-level merchandise label to a near-SAPA level merchandise label with square footage numbers. We work directly with Districts on accuracy of merchandise flow at this level, and post them here as they are finalized.
+            <br />
+        </font>
+    </p>
+    <div align="center">
+        <strong>
+            <font face="Verdana">If base floor plans are not accurate, or if you have questions regarding this process, please contact: </font>
+        </strong><strong><span style="text-decoration: underline;"><font color="#0000ff" face="Verdana"><a href="mailto:FloorPlanUpdates@macys.com">FloorPlanUpdates@macys.com</a><br /><br /><a href="http://ma000xslnspc01/SPACE/ProjectLifeCycle.nsf/fsDwg?OpenFrameSet&amp;Frame=MainDwg&amp;Src=%2FSPACE%2FProjectLifeCycle.nsf%2FpWebMainDwg%3FOpenPage%26AutoFramed"><font color="#0066cc" face="Verdana" size="2"><span style="text-decoration: underline;">Need Design Review software? Click here</span></font></a><br /><br /><font class="ms-rteFontSize-1" face="Verdana">To Access DWF drawings, Select your Store by Name or Store Number and click on the &quot;Get DWF Drawings&quot; button.</font><span class="ms-rteFontSize-1"> </span><br /></font></span></strong><br />
+    </div>
+</div>
+<div style="text-align: center;">&#160;</div>
+<div id="storeByName" style="width: 100%; height: 30px; text-align: center; visibility: hidden;">
+    <span id="span1" style="font-weight: bold;">Select a Store By Name: </span>
+</div>
+<div id="or" style="width: 100%; height: 30px; text-align: center; visibility: hidden;">
+    <p style="width: 100%; height: 20px; text-align: center;">
+        <span style="font-size: 17px; font-weight: bold;">OR</span>
+    </p>
+    <p>     &#160;</p>
+</div>
+<div id="storeByNumber" style="width: 100%; height: 30px; text-align: center; visibility: hidden;">&#160;<span id="span2" style="font-weight: bold;">Select a Store By Number: </span></div>
+<div style="text-align: center;">&#160;</div>
+<div id="divforlink" style="width: 100%; height: 67px; text-align: center; vertical-align: middle; visibility: hidden;">
+    <a class="button" id="link1" href="#" style="padding: 10px;">Get DWF Drawings</a>&#160;
+</div>
+<script type="text/javascript">
+
+    (function( $, ept ) {
+        "use strict";
+        var listInfo = {
+            site : "/sites/propertydevelopment/DigitalFloorPlanning/",  // the site our list is located in
+            list : "SPACE_CENTRAL_INFO_ALL",  // the name of our list
+            options : "$orderby=STORENAME asc" // we want results returned by STORENAME in ascending order
+        };//end listinfo
+        var options2 = [];
+        var listOfStoresSorted = []; //create sorted array by storeNo
+        function readListData() {  //ajax call to get the list items
+            $.when(ept.listItem.get(listInfo)).done(processResults, makeVisible, createSortedDropdown).fail(callFailed);
+        }//end readListData
+
+
+        function processResults( data ) {  // take the returned items and format as a table
+            var results = data.d.results;
+
+            var xxx = $("#storeByName").find("#span1").clone();
+            var xxx1 = $("#storeByNumber").find("#span2").clone();
+
+
+            $("#storeByName").empty();
+            $("#storeByName").append(xxx);
+            $("#storeByName").append('<select id="select1" class="storeName"></select>');
+
+            $("#storeByNumber").empty();
+            $("#storeByNumber").append(xxx1);
+            $("#storeByNumber").append('<select id="select2" class="storeNO"></select>');
+
+            $("#select1").append('<option value ="">Select Location</option>');
+            $("#select2").append('<option value ="">Select Location</option>');
+           
+           
+
+            $(results).each(function(i, item)
+            {
+                $("#select1").append('<option value ="//sp000xsfil02/space_central$/"' + item.SPACEKEY + '>' + item.STORENAME + '-' + item.STORE_x0020_NO + '-' + item.SPACEKEY + '</option>'); // appending <option></option>
+
+                listOfStoresSorted.push({ spaceKey: item.SPACEKEY, storeName: item.STORENAME, storeNo: item.STORE_x0020_NO });
+                listOfStoresSorted.sort(function (a, b) {
+                    if (a.storeNo > b.storeNo) {
+                        return 1;
+                    }
+                    if (a.storeNo < b.storeNo) {
+                        return -1;
+                    }
+                    // a must be equal to b
+                    return 0;
+                });
+            });//end .each
+
+                       
+
+               // on change, change href value of link
+                $('select').on('change', function() {
+                    var link = +this.value;
+                    $("#link1").attr("href",link);
+                });//end select on
+             
+
+            }//end processResults
+
+
+
+        // sorting array of objects by storeNo
+        function createSortedDropdown() {
+            listOfStoresSorted.pop("Select Location");//temporary remove "Select Location" from the list
+          
+            $(listOfStoresSorted).each(function (i, item) {
+
+                console.log(item.spaceKey);
+                $("#select2").append('<option value ="//sp000xsfil02/space_central$/"' + item.spaceKey + '>' + item.storeNo + ' - ' + item.storeName + ' - ' + item.spaceKey + '</option>');
+            });//end each
+
+            listOfStoresSorted.unshift("Select Location"); // add "Select Location" back to the top of the list
+        }
+
+
+        //invisible until all is loaded up
+        function makeVisible() {
+
+            $(".ms-rtedir").css("visibility", "visible");
+            $("#storeByName").css("visibility", "visible");
+            $("#storeByNumber").css("visibility", "visible");
+            $("#or").css("visibility", "visible");
+            $("#divforlink").css("visibility", "visible");
+        }
+
+            function callFailed() {  //for some reason, our ajax call failed
+                alert( "Unable to read list data!" );
+            }//end alert
+
+
+
+            $(function() {  // document is ready
+                if ( ! ept.isEditMode() ) {  // we are not in Edit mode
+
+                    var d1 = readListData();
+
+                }
+            });//end
+
+        })( jQuery, ept );
+
+
+
+</script>
